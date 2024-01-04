@@ -9,7 +9,7 @@ module.exports = ()=>{
     
     passport.serializeUser((user, done)=>{
         process.nextTick(()=>{
-            done(null, { nickname: user.nickname, objectID: user._id });
+            done(null, { username: user.username, objectID: user._id, seq: user.seq });
         })
     })
     

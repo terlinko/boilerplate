@@ -8,7 +8,7 @@ module.exports = ()=>{
         clientID:  process.env.KAKAO_ClientID,
         callbackURL: process.env.KAKAO_CallbackURL,
     }, (accessToken, refreshToken, profile, done)=>{
-        User.findOne({ snsID: profile.id, provider: 'kakao' })
+        User.findOne({ "sns.snsID": profile.id, "sns.provider": 'kakao' })
         .then(result=>{
             if(result){
                 //있으면 로그인 성공
@@ -21,8 +21,10 @@ module.exports = ()=>{
                 const new_user = new User({
                     email: profile._json.kakao_account.email,
                     nickname: profile.displayName,
-                    snsID: profile.id,
-                    provider: 'kakao'
+                    sns: [{
+                        snsID: profile.id,
+                        provider: 'kakao'
+                    }]
                 })
                 new_user.save()
                 .then(result=>{

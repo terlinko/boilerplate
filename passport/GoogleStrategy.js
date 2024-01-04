@@ -10,7 +10,7 @@ module.exports = ()=>{
         callbackURL: process.env.GOOGLE_CallbackURL,
     }, (accessToken, refreshToken, profile, done)=>{
         console.log(profile)
-        User.findOne({ snsID: profile.id, provider: 'google' })
+        User.findOne({ "sns.snsID": profile.id, "sns.provider": 'google' })
         .then(result=>{
             if(result){
                 //있으면 로그인 성공
@@ -22,8 +22,10 @@ module.exports = ()=>{
                 const new_user = new User({
                     email: profile._json.email,
                     nickname: profile.displayName,
-                    snsID: profile.id,
-                    provider: 'google'
+                    sns: [{
+                        snsID: profile.id,
+                        provider: 'google'
+                    }]
                 })
                 new_user.save()
                 .then(result=>{

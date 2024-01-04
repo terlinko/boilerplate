@@ -48,11 +48,7 @@ app.use('/auth', authRouter)
 
 
 app.get('/', (req, res)=>{
-  if(!req.user){
-    res.json({"err": "login required"})
-  }else{
-    res.json(req.user)
-  }
+  res.json({msg: 'hello'})
 })
 
 
